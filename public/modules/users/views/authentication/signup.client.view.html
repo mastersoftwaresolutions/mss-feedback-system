@@ -1,0 +1,48 @@
+<section class="row" data-ng-controller="AuthenticationController">
+	
+	<div class="col-md-12">
+		<form name="userForm" data-ng-submit="signup()" class="signin form-horizontal" novalidate autocomplete="off">
+				<h3>Sign Up</h3>
+			<fieldset>
+				<div class="form-group">
+					<label>Select User</label>
+					<select name="user" class="form-control" data-ng-model="credentials.roles">
+						
+						<option value="tl">Team Lead</option>
+						<option value="developer">Developer</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="firstName">First Name</label>
+					<input type="text" required id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" ng-pattern="/^[a-zA-Z]*$/" placeholder="First Name">
+					<span ng-show="(userForm.firstName.$invalid && userForm.firstName.$dirty)" class="text-danger">Please use characters only.</span>
+				</div>
+				<div class="form-group">
+					<label for="lastName">Last Name</label>
+					<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" ng-pattern="/^[a-zA-Z]*$/" placeholder="Last Name">
+					<span ng-show="(userForm.lastName.$invalid && userForm.lastName.$dirty)" class="text-danger">Please use characters only.</span>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+				</div>
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+				</div>
+				<div class="text-center form-group">
+					<button type="submit" class="btn btn-large btn-primary">Sign up</button>
+					<span class="or">OR</span>
+					<a href="/#!/signin" class="show-signup btn">Sign in</a>
+				</div>
+				<div data-ng-show="error" class="alert bg-danger">
+					<strong data-ng-bind="error" ></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

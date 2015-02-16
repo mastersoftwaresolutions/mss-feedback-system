@@ -1,0 +1,71 @@
+<section data-ng-controller="FeedbacksController" data-ng-init="find()">
+<div ng-show="authorized">
+	<div class="page-header">
+		<h1>Feedbacks</h1>
+		<div class="text-right"><label>Search:</label>
+		 	<input ng-model="searchText[queryBy]">
+		</div>
+		<div class="text-right ng-hide" ><label>Search By:</label>
+		<select ng-model="queryBy">
+                    
+                    <option value="projectname">Project Name</option>
+                    
+        </select>  
+	</div>
+	</div>
+	<div data-ng-show="$root.message" class="alert bg-success">
+		<strong data-ng-bind="message"></strong>
+	</div>
+		<div class="text-right">
+			<a class="btn btn-primary" href="#!/myfeedbacks" role="button" ng-if="authentication.user.roles=='tl'">My Feedbacks</a>
+			<a class="btn btn-primary" href="#!/feedbacks/create" role="button">Add New</a>
+		</div>	
+	<table class="table table-hover" ng-table>
+		<thead>
+			<tr>
+				<th><strong>Posted On</strong></th>
+				<th><strong>Posted By</strong></th>
+				<th><strong>Project Name</strong></th>
+				<th><strong>Developer Name</strong></th>
+				<th><strong>Rating</strong></th>
+				<th><strong>Feedback</strong></th>
+				<th><strong>Action</strong></th>
+			</tr>
+			
+		</thead>
+		<tbody>	
+			<tr data-ng-repeat="feedback in feedbacks | filter:searchText | pagination: curPage * pageSize | limitTo: pageSize ">
+				<td>{{feedback.created | date:'mediumDate'}}</td>
+				<td>{{feedback.user.displayName}}</td>
+				<td>{{feedback.projectname}}</td>
+				<td>{{feedback.developer[0].displayName}}</td>
+				<td>{{feedback.rating}}</td>
+				<td>{{feedback.feedback}}</td>
+				<td><a class="btn btn-primary" href="/#!/feedbacks/{{feedback._id}}/edit">
+						<i class="glyphicon glyphicon-edit"></i>
+					</a>
+					<a class="btn btn-primary" data-ng-click="remove(feedback);">
+						<i class="glyphicon glyphicon-trash"></i>
+					</a>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+	<div class="pagination-div text-right" ng-show="feedbackCount>'10'">
+          <button type="button" class="btn btn-primary" ng-disabled="curPage == 0" ng-click="curPage=curPage-1">PREV</button>
+          <span>Page {{curPage + 1}} of {{ numberOfPages() }}</span>
+          <button type="button" class="btn btn-primary" ng-disabled="curPage >= feedbackCount/pageSize - 1" ng-click="curPage = curPage+1">NEXT </button>
+    </div>
+	
+	<div class="alert alert-warning text-center" data-ng-if="feedbacks.$resolved && !feedbacks.length">
+		No feedbacks yet!!
+	</div>
+</div>
+<div class="text-center">	
+<label ng-if="authentication.user.roles=='developer'" class="alert alert-warning text-center">You are not authorized to view this page.</label>
+</div>
+	
+</section>
+
+ 
